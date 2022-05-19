@@ -4,9 +4,11 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 import pandas as pd
+import numpy as np
+from sqlalchemy import null
 from my_functions import datestr_to_seconds
 from my_functions import error_turnoff_model
-
+from statistics import mean
 # parameters:
 dev_std = 0.5
 T_init = 38.2 # average Ts for turning-off and no-change
@@ -14,6 +16,7 @@ T_init = 38.2 # average Ts for turning-off and no-change
 # T_init = 37.6 # average Ts for door-ajar
 max_error = 1.3
 min_error = 2.0
+date0 = None
 
 # open and read the sensor data as pandas dataframe
 # chose data to compare:
@@ -89,3 +92,31 @@ for i in range(0,60):
         elif error > min_error:
             print("Minute: ", i + 4, "- Analysis inconclusive. The incubator might be open")
 
+
+
+
+def process_points(input_tuples, is_stable, unstable_timestamp, set_stability, set_unstable_timestamp):
+    # take the points
+    # order by timestamp ascending
+    # each additional timestamp is the difference between the lowest and the current
+    sorted_tuples = sorted(input_tuples, key= lambda x: x[1])
+    temp, start_time = sorted_tuples[0]
+    mapped = list(map(lambda x : (x[0], x[1] -  start_time if is_stable else unstable_timestamp), sorted_tuples))
+    temps =  np.array(list(map(lambda x: x[0], mapped)))
+    times = np.array(list(map(lambda x: x[1], mapped)))
+    mean_temp = np.mean(temps)
+
+    if T_init - dev_std < mean_temp < T_init + dev_std:
+        set_stability(True)
+        set_unstable_timestamp(None)
+        return "Stable"
+    else:
+        error = error_turnoff_model(times, temps, T_init)
+        if(error < max_error):
+            if is_stable:
+                set_stability(False)
+                set_unstable_timestamp(start_time)
+
+            return "Unstable"
+        else:
+            return "Other"

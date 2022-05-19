@@ -24,12 +24,12 @@
 {  "timestamp": "2022-05-18T16:29:50Z",  "deviceId": "A.02-Room3",  "sensor1Id": "temperature",  "sensor1value": "23.89999962",  "sensor2Id": "humidity",  "sensor2Value": "31.60000038"}
 {  "timestamp": "2022-05-18T16:29:42Z",  "deviceId": "onewiresensor3",  "sensor1Id": "temperature",  "sensor1value": "35.4375",  "sensor2Id": "humidity",  "sensor2Value": "95.78749847"}
 {  "timestamp": "2022-05-18T16:29:38Z",  "deviceId": "onewiresensor4",  "sensor1Id": "temperature",  "sensor1value": "-127",  "sensor2Id": "humidity",  "sensor2Value": "-196.6000061"}
-{  "timestamp": "2022-05-18T16:29:05Z",  "deviceId": "onewiresensor3",  "sensor1Id": "temperature",  "sensor1value": "35.5625",  "sensor2Id": "humidity",  "sensor2Value": "96.01249695"}
+{  "timestamp": "2022-05-18T16:29:05Z",  "deviceId": "onewiresensor3",  "sensor1Id": "temperature",  "sensor1value": "24.5625",  "sensor2Id": "humidity",  "sensor2Value": "96.01249695"}
 {  "timestamp": "2022-05-18T16:28:50Z",  "deviceId": "A.02-Room3",  "sensor1Id": "temperature",  "sensor1value": "23.89999962",  "sensor2Id": "humidity",  "sensor2Value": "30.89999962"}
-{  "timestamp": "2022-05-18T16:28:28Z",  "deviceId": "onewiresensor3",  "sensor1Id": "temperature",  "sensor1value": "35.6875",  "sensor2Id": "humidity",  "sensor2Value": "96.23749542"}
+{  "timestamp": "2022-05-18T16:28:28Z",  "deviceId": "onewiresensor3",  "sensor1Id": "temperature",  "sensor1value": "26.6875",  "sensor2Id": "humidity",  "sensor2Value": "96.23749542"}
 {  "timestamp": "2022-05-18T16:28:26Z",  "deviceId": "onewiresensor4",  "sensor1Id": "temperature",  "sensor1value": "-127",  "sensor2Id": "humidity",  "sensor2Value": "-196.6000061"}
 {  "timestamp": "2022-05-18T16:28:21Z",  "deviceId": "onewiresensor2",  "sensor1Id": "temperature",  "sensor1value": "33.875",  "sensor2Id": "humidity",  "sensor2Value": "92.97499847"}
-{  "timestamp": "2022-05-18T16:27:57Z",  "deviceId": "onewiresensor3",  "sensor1Id": "temperature",  "sensor1value": "35.75",  "sensor2Id": "humidity",  "sensor2Value": "96.34999847"}
+{  "timestamp": "2022-05-18T16:27:57Z",  "deviceId": "onewiresensor3",  "sensor1Id": "temperature",  "sensor1value": "25.75",  "sensor2Id": "humidity",  "sensor2Value": "96.34999847"}
 {  "timestamp": "2022-05-18T16:27:50Z",  "deviceId": "A.02-Room3",  "sensor1Id": "temperature",  "sensor1value": "24",  "sensor2Id": "humidity",  "sensor2Value": "31.10000038"}
 {  "timestamp": "2022-05-18T16:27:49Z",  "deviceId": "onewiresensor2",  "sensor1Id": "temperature",  "sensor1value": "34",  "sensor2Id": "humidity",  "sensor2Value": "93.19999695"}
 {  "timestamp": "2022-05-18T16:27:25Z",  "deviceId": "onewiresensor3",  "sensor1Id": "temperature",  "sensor1value": "35.8125",  "sensor2Id": "humidity",  "sensor2Value": "96.46250153"}
