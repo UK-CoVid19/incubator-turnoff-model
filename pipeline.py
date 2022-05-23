@@ -30,6 +30,7 @@ class ProcessResultFn(beam.DoFn):
     unstable_timestamp_state = beam.transforms.userstate.ReadModifyWriteStateSpec(name='timestamp', coder=beam.coders.FloatCoder())
 
     def process(self, element, stable=beam.DoFn.StateParam(stable_state), unstable_timestamp=beam.DoFn.StateParam(unstable_timestamp_state)):
+        print('element is', element)
         key, value = element
 
         is_stable = stable.read() or True
@@ -37,8 +38,15 @@ class ProcessResultFn(beam.DoFn):
         unstable_timestamp_val = unstable_timestamp.read()
         result = process_points(value, is_stable, unstable_timestamp_val, stable.write, unstable_timestamp.write)
         print(result, key, "Result!!")
-        return result
 
+        message = {"sensor": key, "stable": result }
+        
+        print(message)
+        yield message
+
+
+def encode_to_bytes(message): 
+    return [json.dumps(message).encode()]
 
 def transform_numbers(element):
     element['sensor1value'] = float(element['sensor1Value'])
@@ -55,8 +63,13 @@ def is_datapoint(message):
     return "connected" not in message.decode('utf-8')
 
 def has_4_readings(message):
-    return len(message) > 3
+    sensor_name, readings = message
+    print("length of message is ", len(readings))
+    return len(readings) > 3
 
+def is_alert(message):
+    return message["stable"] != "Stable"
+    
 def run():
 
     options = beam.options.pipeline_options.PipelineOptions(
@@ -98,7 +111,11 @@ def run():
             # data arrives.
         )
 
-        par_windowed = windowed_events | "Combine Results" >> beam.GroupByKey() | beam.Filter(has_4_readings) | beam.ParDo(ProcessResultFn()) | beam.Map(print)
+        par_windowed = windowed_events | "Combine Results" >> beam.GroupByKey() | beam.Filter(has_4_readings)
+        processed_results = par_windowed | "Process Results" >> beam.ParDo(ProcessResultFn())
+        filtered_alerts = processed_results | "Filter Alerts" >> beam.Filter(is_alert)
+        encoded_results = filtered_alerts | "Encode messages" >> beam.ParDo(encode_to_bytes)
+        encoded_results | "WriteToPubSub" >> beam.io.WriteToPubSub("projects/neon-vigil-312408/topics/sensoralerts")
 
         # We can use CombinePerKey with the predifined sum function to combine all elements 
         # for each key in a collection.
