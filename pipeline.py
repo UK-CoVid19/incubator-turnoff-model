@@ -1,14 +1,9 @@
 import apache_beam as beam
 from apache_beam.transforms.window import (
     TimestampedValue,
-    Sessions,
-    Duration,
     SlidingWindows,    
 )
-from apache_beam.io.textio import WriteToText, ReadAllFromText
-import numpy as np
 import json
-from datetime import datetime
 from dateutil import parser
 import time
 import logging
@@ -128,33 +123,7 @@ def run():
     result = p.run()
     result.wait_until_finish()
 
-TOPIC_PATH = "projects/neon-vigil-312408/topics/labsensortopic"
-
-def run2(pubsub_topic):
-    options = beam.options.pipeline_options.PipelineOptions(
-        streaming=True
-    )
-    runner = 'DirectRunner'
-
-    print("I reached before pipeline")
-
-    with beam.Pipeline(runner, options=options) as pipeline:
-        (
-            pipeline
-            | "Read from Pub/Sub topic" >> beam.io.ReadFromPubSub(topic=pubsub_topic)
-            | "Writing to console" >> beam.Map(print)
-        )
-
-    print("I reached after pipeline")
-
-    result = pipeline.run()
-    result.wait_until_finish()
-
-
-
-
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    # run2(TOPIC_PATH)
     run()
