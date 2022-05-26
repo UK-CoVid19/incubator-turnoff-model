@@ -1,4 +1,5 @@
-# predictive-analytics
-Analysis of temperature sensor data
+# incubator-turnoff-model
+Analysis of reat-time incubator temperature data.
+
 ## Description
-Analysis of temperature sensor data placed inside an incubator to verify if the equipment is working well, the door is opened, or if the incubator is turned off. 
+The program reads real-time temperature data and analyses if the incubator (a) stable, (b) being turned off, or (c) other.
