@@ -1,6 +1,4 @@
-import pandas as pd
 import numpy as np
-
 
 def datestr_to_seconds(datestr, datestr_reference):
     d_year = int(datestr[0:4]) - int(datestr_reference[0:4])

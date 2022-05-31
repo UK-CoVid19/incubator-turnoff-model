@@ -5,10 +5,9 @@
 
 import pandas as pd
 import numpy as np
-from my_functions import datestr_to_seconds
-from my_functions import error_turnoff_model
-from statistics import mean
-# parameters:
+from temp_model import datestr_to_seconds
+from temp_model import error_turnoff_model
+
 dev_std = 0.5
 T_init = 38.2 # average Ts for turning-off and no-change
 # T_init = 36.5 # average Ts for door-open
@@ -16,7 +15,9 @@ T_init = 38.2 # average Ts for turning-off and no-change
 max_error = 1.3
 min_error = 2.0
 
-def main_calc():
+def process_samples():
+    # parameters:
+
     date0 = None
 
     # open and read the sensor data as pandas dataframe
@@ -93,15 +94,11 @@ def main_calc():
             elif error > min_error:
                 print("Minute: ", i + 4, "- Analysis inconclusive. The incubator might be open")
 
-
-
-
 def process_points(input_tuples, is_stable, unstable_timestamp, set_stability, set_unstable_timestamp):
     # take the points
     # order by timestamp ascending
     # each additional timestamp is the difference between the lowest and the current
     sorted_tuples = sorted(input_tuples, key= lambda x: x[1])
-    print(sorted_tuples)
     temp, start_time = sorted_tuples[0]
     mapped = list(map(lambda x : (x[0], x[1] -  start_time if is_stable else unstable_timestamp), sorted_tuples))
     temps =  np.array(list(map(lambda x: x[0], mapped)))
@@ -110,7 +107,7 @@ def process_points(input_tuples, is_stable, unstable_timestamp, set_stability, s
 
     if T_init - dev_std < mean_temp < T_init + dev_std:
         set_stability(True)
-        set_unstable_timestamp(0.0)
+        set_unstable_timestamp(None)
         return "Stable"
     else:
         error = error_turnoff_model(times, temps, T_init)
@@ -122,3 +119,7 @@ def process_points(input_tuples, is_stable, unstable_timestamp, set_stability, s
             return "Unstable"
         else:
             return "Other"
+
+
+def main():
+    process_samples()
