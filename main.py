@@ -107,7 +107,7 @@ def process_points(input_tuples, is_stable, unstable_timestamp, set_stability, s
 
     if T_init - dev_std < mean_temp < T_init + dev_std:
         set_stability(True)
-        set_unstable_timestamp(None)
+        set_unstable_timestamp(0.0)
         return "Stable"
     else:
         error = error_turnoff_model(times, temps, T_init)

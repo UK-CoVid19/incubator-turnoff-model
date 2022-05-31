@@ -30,7 +30,7 @@ class ProcessResultFn(beam.DoFn):
 
         is_stable = stable.read() or True
         print(is_stable, "stable read")
-        unstable_timestamp_val = unstable_timestamp.read()
+        unstable_timestamp_val = unstable_timestamp.read() or 0.0
         result = process_points(value, is_stable, unstable_timestamp_val, stable.write, unstable_timestamp.write)
         print(result, key, "Result!!")
 
